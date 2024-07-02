@@ -16,7 +16,7 @@ public class PegawaiController {
     
     
     @PostMapping("/create")
-    public ResponseEntity createPegawai(Pegawai pegawai) {
+    public ResponseEntity createPegawai(@RequestBody Pegawai pegawai) {
         ResponseEntity responseEntity = null;
         try {
             pegawaiService.create(pegawai);
@@ -43,7 +43,7 @@ public class PegawaiController {
         return responseEntity;
     }
 
-    @PostMapping("/pegawai/{id}")
+    @GetMapping("/pegawai/{id}")
     public ResponseEntity readById(@PathVariable Long id) {
         ResponseEntity responseEntity = null;
         try {
@@ -55,6 +55,36 @@ public class PegawaiController {
             }
         } catch (Exception e) {
             String errMessage = "Gagal menemukan";
+            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errMessage);
+        }
+        return responseEntity;
+    }
+
+    @PostMapping("/pegawai/{id}")
+    public ResponseEntity update(@RequestBody Pegawai pegawaiBaru, @PathVariable Long id) {
+        ResponseEntity responseEntity = null;
+        try {
+            Pegawai pegawai = pegawaiService.update(pegawaiBaru, id);
+            if (pegawai != null) {
+                responseEntity = ResponseEntity.ok(pegawai);
+            } else {
+                responseEntity = ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            String errMessage = "Gagal update";
+            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errMessage);
+        }
+        return responseEntity;
+    }
+
+    @DeleteMapping("/pegawai/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        ResponseEntity responseEntity = null;
+        try {
+            pegawaiService.deleteById(id);
+            responseEntity = ResponseEntity.ok().build();
+        } catch (Exception e) {
+            String errMessage = "Gagal delete";
             responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errMessage);
         }
         return responseEntity;

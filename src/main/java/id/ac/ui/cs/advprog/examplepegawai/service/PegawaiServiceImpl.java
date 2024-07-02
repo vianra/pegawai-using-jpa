@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,14 @@ public class PegawaiServiceImpl implements PegawaiService{
 
     @Override
     public Pegawai update(Pegawai pegawaiBaru, Long id) {
-        return pegawaiRepository.save(pegawaiBaru);
+        Pegawai pegawaiLama = pegawaiRepository.findById(id).get();
+        if(Objects.nonNull(pegawaiLama.getName())) {
+            pegawaiLama.setName(pegawaiBaru.getName());
+        }
+        if(Objects.nonNull(pegawaiLama.getDivision())) {
+            pegawaiLama.setDivision(pegawaiBaru.getDivision());
+        }
+        return pegawaiRepository.save(pegawaiLama);
     }
     @Override
     public void deleteById(Long id) {

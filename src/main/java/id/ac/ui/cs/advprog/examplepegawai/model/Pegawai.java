@@ -18,6 +18,7 @@ import java.util.ArrayList;
 @Builder
 public class Pegawai {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long pegawaiId;
     private String name;
     private String division;
 }
