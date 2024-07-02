@@ -20,5 +20,4 @@ public class Pegawai {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private String name;
     private String division;
-    private ArrayList<String> tasks;
 }
