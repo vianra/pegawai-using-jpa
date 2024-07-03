@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "3.3.1"
 	id("io.spring.dependency-management") version "1.1.5"
 }
@@ -33,9 +34,19 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+	testImplementation("org.mockito:mockito-core:3.10.0")
 }
 
-tasks.withType<Test> {
+tasks.test {
 	useJUnitPlatform()
+}
+
+tasks.test {
+	finalizedBy("jacocoTestReport", "jacocoTestCoverageVerification")
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
 }
