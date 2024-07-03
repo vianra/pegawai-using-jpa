@@ -43,6 +43,10 @@ tasks.test {
 	useJUnitPlatform()
 }
 
+tasks.test {
+	finalizedBy("jacocoTestReport", "jacocoTestCoverageVerification")
+}
+
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
 }
